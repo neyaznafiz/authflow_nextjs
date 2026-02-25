@@ -1,0 +1,5 @@
+{
+  "name": "AuthFlow",
+  "description": "A clean and modern authentication system with sign-in and sign-up flows.",
+  "requestFramePermissions": []
+}

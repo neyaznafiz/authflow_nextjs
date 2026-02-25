@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-zinc-900 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+.auth-card {
+  @apply bg-white p-8 sm:p-12;
+}
+
+.input-field {
+  @apply w-full px-0 py-3 bg-transparent border-b border-zinc-200 focus:outline-none focus:border-zinc-900 transition-all duration-300 placeholder:text-zinc-400;
+}
+
+.btn-primary {
+  @apply w-full py-3 bg-zinc-900 text-white rounded-full font-medium hover:bg-zinc-800 active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none;
+}
