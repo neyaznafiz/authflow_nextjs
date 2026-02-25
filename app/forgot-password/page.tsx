@@ -1,27 +1,17 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, ArrowLeft, Loader2 } from "lucide-react";
 import { clsx } from "clsx";
 
-export default function SignIn() {
-    const router = useRouter();
+export default function ForgotPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState<{
         type: "success" | "error";
         message: string;
     } | null>(null);
-
-    useEffect(() => {
-        // Check if already logged in
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-            router.push("/dashboard");
-        }
-    }, [router]);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -29,45 +19,27 @@ export default function SignIn() {
         setStatus(null);
 
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+        const identifier = formData.get("identifier");
 
         try {
-            const response = await fetch("/api/auth/signin", {
+            const response = await fetch("/api/auth/forgot-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    identifier: data.identifier,
-                    password: data.password,
-                }),
+                body: JSON.stringify({ identifier }),
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || "Invalid credentials");
-            }
-
-            console.log("Sign in success:", result);
-
-            // Store data in localStorage
-            if (result.accessToken) {
-                localStorage.setItem("accessToken", result.accessToken);
-            }
-            if (result.user) {
-                localStorage.setItem("user", JSON.stringify(result.user));
+                throw new Error(result.message || "Something went wrong");
             }
 
             setStatus({
                 type: "success",
-                message: `Welcome back, ${result.user.name}! Redirecting...`,
+                message: result.message,
             });
-
-            // Redirect after a short delay
-            setTimeout(() => {
-                router.push("/dashboard");
-            }, 1000);
         } catch (error: any) {
             setStatus({ type: "error", message: error.message });
         } finally {
@@ -83,12 +55,19 @@ export default function SignIn() {
                 transition={{ duration: 0.8 }}
                 className="auth-card w-full max-w-sm"
             >
-                <div className="mb-12">
+                <div className="mb-8">
+                    <Link
+                        href="/"
+                        className="inline-flex items-center text-xs text-zinc-400 hover:text-zinc-900 transition-colors mb-6 group"
+                    >
+                        <ArrowLeft className="w-3 h-3 mr-2 group-hover:-translate-x-1 transition-transform" />
+                        Back to sign in
+                    </Link>
                     <h1 className="text-3xl font-light tracking-tight text-zinc-900">
-                        Sign in
+                        Forgot password
                     </h1>
                     <p className="text-zinc-400 text-sm mt-2 font-light">
-                        Access your workspace
+                        Enter your identifier to reset your password
                     </p>
                 </div>
 
@@ -116,28 +95,7 @@ export default function SignIn() {
                             name="identifier"
                             type="text"
                             required
-                            placeholder="name@example.com"
-                            className="input-field"
-                        />
-                    </div>
-
-                    <div className="space-y-1">
-                        <div className="flex justify-between items-center">
-                            <label className="text-[10px] uppercase tracking-widest font-semibold text-zinc-400">
-                                Password
-                            </label>
-                            <Link
-                                href="/forgot-password"
-                                className="text-[10px] uppercase tracking-widest font-semibold text-zinc-400 hover:text-zinc-900 transition-colors"
-                            >
-                                Forgot?
-                            </Link>
-                        </div>
-                        <input
-                            name="password"
-                            type="password"
-                            required
-                            placeholder="••••••••"
+                            placeholder="Enter your identifier"
                             className="input-field"
                         />
                     </div>
@@ -150,22 +108,10 @@ export default function SignIn() {
                         {isLoading ? (
                             <Loader2 className="w-5 h-5 animate-spin mx-auto" />
                         ) : (
-                            "Continue"
+                            "Send Reset Link"
                         )}
                     </button>
                 </form>
-
-                <div className="mt-12">
-                    <p className="text-xs text-zinc-400 font-light">
-                        New here?{" "}
-                        <Link
-                            href="/signup"
-                            className="text-zinc-900 font-medium hover:underline underline-offset-8"
-                        >
-                            Create account
-                        </Link>
-                    </p>
-                </div>
             </motion.div>
         </div>
     );

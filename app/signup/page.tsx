@@ -67,6 +67,8 @@ export default function SignUp() {
                 type: "success",
                 message: "Account created successfully! You can now sign in.",
             });
+
+            setTimeout(() => { router.push("/"); }, 1500);
         } catch (error: any) {
             setStatus({ type: "error", message: error.message });
         } finally {
