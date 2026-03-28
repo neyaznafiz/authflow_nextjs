@@ -24,7 +24,7 @@ export default function Dashboard() {
                 });
             } catch (error) {
                 console.error("Session verification failed:", error);
-                router.push("/");
+                router.push("/signin");
             } finally {
                 setIsLoading(false);
             }
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="min-h-screen flex items-center justify-center bg-transparent">
                 <div className="animate-pulse text-zinc-400 font-light tracking-widest uppercase text-xs">
                     Loading...
                 </div>
@@ -48,25 +48,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-zinc-50/50">
-            {/* Navigation */}
-            <nav className="bg-white border-b border-zinc-100 px-6 py-4">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        <LayoutDashboard className="w-5 h-5 text-zinc-900" />
-                        <span className="font-medium tracking-tight text-zinc-900">
-                            Workspace
-                        </span>
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-zinc-400 hover:text-zinc-900 transition-colors"
-                    >
-                        <LogOut className="w-4 h-4" />
-                        Sign out
-                    </button>
-                </div>
-            </nav>
+        <div className="min-h-screen bg-transparent">
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto p-6 sm:p-12">

@@ -4,10 +4,10 @@ import { useState, FormEvent, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2, Mail, Lock, User, Sparkles } from "lucide-react";
+import { Loader2, Mail, Lock, Sparkles } from "lucide-react";
 import { clsx } from "clsx";
 
-export default function SignUp() {
+export default function SignIn() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState<{
@@ -25,25 +25,19 @@ export default function SignUp() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-
-        if (data.password !== data.confirmPassword) {
-            setStatus({ type: "error", message: "Passwords do not match" });
-            return;
-        }
-
         setIsLoading(true);
         setStatus(null);
 
+        const formData = new FormData(e.currentTarget);
+        const data = Object.fromEntries(formData.entries());
+
         try {
-            const response = await fetch("/api/auth/signup", {
+            const response = await fetch("/api/auth/signin", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    name: data.name,
                     identifier: data.identifier,
                     password: data.password,
                 }),
@@ -52,18 +46,22 @@ export default function SignUp() {
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || "Something went wrong");
+                throw new Error(result.message || "Invalid credentials");
+            }
+
+            // Store data in localStorage
+            if (result.accessToken) {
+                localStorage.setItem("accessToken", result.accessToken);
             }
 
             setStatus({
                 type: "success",
-                message: "Account created! Redirecting to verification...",
+                message: `Welcome back, ${result.user?.name || "User"}! Redirecting...`,
             });
 
+            // Redirect after a short delay
             setTimeout(() => {
-                router.push(
-                    `/verify-otp?email=${encodeURIComponent(data.identifier as string)}&devOtp=${result.otp}`,
-                );
+                router.push("/dashboard");
             }, 1000);
         } catch (error: any) {
             setStatus({ type: "error", message: error.message });
@@ -76,14 +74,14 @@ export default function SignUp() {
         <div className="min-h-screen relative flex items-center justify-center p-6 bg-transparent overflow-hidden">
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.98, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative z-10 w-full max-w-lg p-1"
+                className="relative z-10 w-full max-w-md p-1"
             >
-                <div className="bg-white/[0.6] backdrop-blur-3xl border border-white/40 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] rounded-[25px] p-8 sm:p-12 overflow-hidden relative">
+                <div className="bg-white/[0.6] backdrop-blur-3xl border border-white/40 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] rounded-[20px] p-8 sm:p-12 overflow-hidden relative">
 
-                    <div className="mb-8 text-center">
+                    <div className="mb-10 text-center">
                         <motion.div 
                             initial={{ scale: 0.5, rotate: -45, opacity: 0 }}
                             animate={{ scale: 1, rotate: 0, opacity: 1 }}
@@ -93,10 +91,10 @@ export default function SignUp() {
                             <Sparkles className="w-6 h-6 text-white" />
                         </motion.div>
                         <h1 className="text-3xl font-light tracking-tight text-zinc-900">
-                            Create Account
+                            Welcome Back
                         </h1>
                         <p className="text-zinc-500 text-sm mt-3 font-light tracking-wide">
-                            Join us and start your journey today
+                            Enter your details to access your workspace
                         </p>
                     </div>
 
@@ -118,28 +116,10 @@ export default function SignUp() {
                         )}
                     </AnimatePresence>
 
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-2 sm:col-span-2">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="space-y-2">
                             <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 ml-1">
-                                Full Name
-                            </label>
-                            <div className="relative group">
-                                <div className="absolute left-1 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-zinc-900 transition-colors">
-                                    <User className="w-4 h-4" />
-                                </div>
-                                <input
-                                    name="name"
-                                    type="text"
-                                    required
-                                    placeholder="John Doe"
-                                    className="w-full pl-8 pr-4 pt-2 pb-2 bg-zinc-50/50 border-b border-zinc-200  transition-all duration-300 placeholder:text-zinc-400 text-sm font-medium focus:outline-none"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2 sm:col-span-2">
-                            <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 ml-1">
-                                Email Address
+                                Email
                             </label>
                             <div className="relative group">
                                 <div className="absolute left-1 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-zinc-900 transition-colors">
@@ -156,33 +136,23 @@ export default function SignUp() {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 ml-1">
-                                Password
-                            </label>
+                            <div className="flex justify-between items-center px-1">
+                                <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                                    Password
+                                </label>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-[10px] uppercase tracking-[0.15em] font-bold text-zinc-500"
+                                >
+                                    Forgot Password?
+                                </Link>
+                            </div>
                             <div className="relative group">
                                 <div className="absolute left-1 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-zinc-900 transition-colors">
                                     <Lock className="w-4 h-4" />
                                 </div>
                                 <input
                                     name="password"
-                                    type="password"
-                                    required
-                                    placeholder="••••••••"
-                                    className="w-full pl-8 pr-4 pt-2 pb-2 bg-zinc-50/50 border-b border-zinc-200  transition-all duration-300 placeholder:text-zinc-400 text-sm font-medium focus:outline-none"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 ml-1">
-                                Confirm
-                            </label>
-                            <div className="relative group">
-                                <div className="absolute left-1 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-zinc-900 transition-colors">
-                                    <Lock className="w-4 h-4" />
-                                </div>
-                                <input
-                                    name="confirmPassword"
                                     type="password"
                                     required
                                     placeholder="••••••••"
@@ -200,7 +170,7 @@ export default function SignUp() {
                                 {isLoading ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
-                                    "Create Account"
+                                    "Sign In"
                                 )}
                             </span>
                         </button>
@@ -208,16 +178,17 @@ export default function SignUp() {
 
                     <div className="mt-14 text-center">
                         <p className="text-xs text-zinc-500 font-light tracking-wide">
-                            Already have an account?{" "}
+                            New Here?{" "}
                             <Link
-                                href="/signin"
+                                href="/signup"
                                 className="text-zinc-600 font-semibold uppercase text-[11px]"
                             >
-                                Back to Sign In
+                                Create an account
                             </Link>
                         </p>
                     </div>
                 </div>
+
             </motion.div>
         </div>
     );

@@ -53,31 +53,7 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="min-h-screen relative flex items-center justify-center p-6 bg-zinc-50 overflow-hidden">
-             {/* Background Abstract Decorative Elements - Theme Consistency */}
-             <div className="absolute inset-0 z-0">
-                <motion.div 
-                    animate={{ 
-                        scale: [1, 1.2, 1],
-                        rotate: [0, 90, 0],
-                        x: [0, 50, 0],
-                        y: [0, 30, 0]
-                    }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px]"
-                />
-                <motion.div 
-                    animate={{ 
-                        scale: [1.2, 1, 1.2],
-                        rotate: [0, -90, 0],
-                        x: [0, -40, 0],
-                        y: [0, 50, 0]
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-violet-500/15 blur-[120px]"
-                />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />
-            </div>
+        <div className="min-h-screen relative flex items-center justify-center p-6 bg-transparent overflow-hidden">
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.98, y: 20 }}
@@ -89,7 +65,7 @@ export default function ForgotPassword() {
 
                     <div className="mb-8">
                         <Link
-                            href="/"
+                            href="/signin"
                             className="inline-flex items-center text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400 hover:text-zinc-900 transition-colors mb-8 group ml-1"
                         >
                             <ArrowLeft className="w-3 h-3 mr-2 group-hover:-translate-x-1 transition-transform" />
