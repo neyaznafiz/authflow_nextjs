@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/signin
+ * Description: Authenticates user credentials and issues a dual-token payload (JWT + Refresh Cookie).
+ * Method: POST
+ * Access: Public
+ */
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";

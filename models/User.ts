@@ -1,3 +1,7 @@
+/**
+ * Model: User
+ * Description: MongoDB Schema for user authentication, session management, and verification.
+ */
 import mongoose from "mongoose";
 import { v7 as uuidv7 } from "uuid";
 

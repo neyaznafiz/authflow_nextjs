@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/refresh
+ * Description: Exchanges a valid HTTP-Only refresh token cookie for a new 15-minute access token.
+ * Method: POST
+ * Access: Public (Cookie-based)
+ */
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/mongodb";

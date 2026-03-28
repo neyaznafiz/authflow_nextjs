@@ -1,3 +1,7 @@
+/**
+ * Utility: dbConnect
+ * Description: Handles MongoDB connection pooling and caching for Next.js API routes.
+ */
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;

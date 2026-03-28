@@ -1,6 +1,6 @@
 # Authflow
 
-A production-ready, highly secure, and beautifully designed authentication system built with Next.js 15, React 19, and MongoDB.
+A clean, highly secure, and beautifully designed authentication system built with Next.js 15, React 19, and MongoDB.
 
 **NOTE:** There is the basic user data structure in the `User` model in `models/User.ts` change the data structure based on your needs for your project, and everything is stored securely in MongoDB like `access_token`, `refresh_token`, `reset_token`, `verification_otp`, etc, but the `refresh_token` is specifically managed via HTTP-Only Cookies to maximize security and prevent XSS (Cross-Site Scripting). You can change and configure storage engines like `redis` or somewhere else to fit your scaling needs, also update the data structure accordingly.
 

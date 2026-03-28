@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/signout
+ * Description: Invalidates the current session by clearing active tokens from DB and deleting the refresh cookie.
+ * Method: POST
+ * Access: Protected (Requires Valid Access Token)
+ */
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";

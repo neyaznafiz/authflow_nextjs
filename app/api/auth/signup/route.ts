@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/signup
+ * Description: Registers a new user account and generates an initial 6-digit verification OTP.
+ * Method: POST
+ * Access: Public
+ */
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";

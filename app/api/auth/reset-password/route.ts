@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/reset-password
+ * Description: Updates the user's password if a valid, non-expired reset token is provided.
+ * Method: POST
+ * Access: Public (Token-based)
+ */
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";

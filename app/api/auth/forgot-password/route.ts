@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/forgot-password
+ * Description: Generates a 1-hour secure password reset token and logs it to console (simulating email).
+ * Method: POST
+ * Access: Public
+ */
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import User from "@/models/User";

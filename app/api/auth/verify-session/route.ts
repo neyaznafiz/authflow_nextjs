@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/verify-session
+ * Description: Validates the current access token and returns user profile data if successful.
+ * Method: GET
+ * Access: Protected (Requires Valid Access Token)
+ */
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/mongodb";

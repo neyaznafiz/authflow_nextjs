@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/resend-otp
+ * Description: Generates and returns a new 6-digit OTP for unverified user accounts.
+ * Method: POST
+ * Access: Public
+ */
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";

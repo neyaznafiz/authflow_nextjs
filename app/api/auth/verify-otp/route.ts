@@ -1,3 +1,9 @@
+/**
+ * API Route: /api/auth/verify-otp
+ * Description: Validates the 6-digit OTP to mark a user account as verified.
+ * Method: POST
+ * Access: Public
+ */
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
