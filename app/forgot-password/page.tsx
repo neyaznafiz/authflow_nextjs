@@ -12,11 +12,13 @@ export default function ForgotPassword() {
         type: "success" | "error";
         message: string;
     } | null>(null);
+    const [resetLink, setResetLink] = useState<string | null>(null);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
         setStatus(null);
+        setResetLink(null);
 
         const formData = new FormData(e.currentTarget);
         const identifier = formData.get("identifier");
@@ -40,6 +42,9 @@ export default function ForgotPassword() {
                 type: "success",
                 message: result.message,
             });
+            if (result.resetLink) {
+                setResetLink(result.resetLink);
+            }
         } catch (error: any) {
             setStatus({ type: "error", message: error.message });
         } finally {
@@ -89,13 +94,13 @@ export default function ForgotPassword() {
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest font-semibold text-zinc-400">
-                            Email or Phone
+                            Email
                         </label>
                         <input
                             name="identifier"
                             type="text"
                             required
-                            placeholder="Enter your identifier"
+                            placeholder="Enter your email"
                             className="input-field"
                         />
                     </div>
@@ -112,6 +117,27 @@ export default function ForgotPassword() {
                         )}
                     </button>
                 </form>
+
+                {resetLink && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-8 p-4 bg-zinc-50 border border-zinc-100 rounded-lg shadow-sm"
+                    >
+                        <p className="text-xs text-zinc-900 font-medium mb-2 uppercase tracking-wider">Reset Link:</p>
+                        <a 
+                            href={resetLink} 
+                            className="text-sm text-zinc-600 hover:text-zinc-900 hover:underline break-all transition-colors" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            {resetLink}
+                        </a>
+                        <p className="text-[10px] text-zinc-400 mt-3 font-medium uppercase tracking-widest">
+                            Send this link to the user email in production
+                        </p>
+                    </motion.div>
+                )}
             </motion.div>
         </div>
     );

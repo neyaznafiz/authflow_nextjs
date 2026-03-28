@@ -20,15 +20,26 @@ export async function POST(req: Request) {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 12);
 
+        // Generate OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
         // Create user
         const user = await User.create({
             name,
             identifier,
             password: hashedPassword,
+            verified: false,
+            verification_otp: otp,
         });
 
+        console.log(`[DEV] OTP for ${identifier}: ${otp}`);
+
         return NextResponse.json(
-            { message: "User created successfully", userId: user._id },
+            { 
+                message: "User created successfully", 
+                userId: user._id,
+                otp: otp
+            },
             { status: 201 },
         );
     } catch (error: any) {

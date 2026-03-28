@@ -62,13 +62,15 @@ export default function SignUp() {
                 throw new Error(result.message || "Something went wrong");
             }
 
-            console.log("Sign up success:", result);
+            console.log("Sign up success:", result, "OTP:", result.otp);
             setStatus({
                 type: "success",
-                message: "Account created successfully! You can now sign in.",
+                message: "Account created! Redirecting to verification...",
             });
 
-            setTimeout(() => { router.push("/"); }, 1500);
+            setTimeout(() => { 
+                router.push(`/verify-otp?email=${encodeURIComponent(data.identifier as string)}&devOtp=${result.otp}`); 
+            }, 1000);
         } catch (error: any) {
             setStatus({ type: "error", message: error.message });
         } finally {
@@ -124,7 +126,7 @@ export default function SignUp() {
 
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest font-semibold text-zinc-400">
-                            Email or Phone
+                            Email
                         </label>
                         <input
                             name="identifier"

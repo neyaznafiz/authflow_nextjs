@@ -18,6 +18,13 @@ export async function POST(req: Request) {
             );
         }
 
+        if (!user.verified) {
+            return NextResponse.json(
+                { message: "Please verify your account first." },
+                { status: 403 },
+            );
+        }
+
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {

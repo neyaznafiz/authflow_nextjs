@@ -33,14 +33,14 @@ export async function POST(req: NextRequest) {
         const resetToken = crypto.randomBytes(32).toString("hex");
         const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour
 
-        user.resetToken = resetToken;
-        user.resetTokenExpiry = resetTokenExpiry;
+        user.reset_token = resetToken;
+        user.reset_token_expiry = resetTokenExpiry;
         await user.save();
 
         // Log the reset link (simulating email)
         const appUrl = process.env.APP_URL || "http://localhost:3000";
         const resetLink = `${appUrl}/reset-password?token=${resetToken}`;
-        
+
         console.log("------------------------------------------");
         console.log(`PASSWORD RESET REQUEST FOR: ${identifier}`);
         console.log(`RESET LINK: ${resetLink}`);
@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
             {
                 message:
                     "If an account exists with that identifier, a reset link will be sent.",
+                resetLink,
             },
             { status: 200 },
         );

@@ -17,8 +17,8 @@ export async function POST(req: NextRequest) {
         await dbConnect();
 
         const user = await User.findOne({
-            resetToken: token,
-            resetTokenExpiry: { $gt: new Date() },
+            reset_token: token,
+            reset_token_expiry: { $gt: new Date() },
         });
 
         if (!user) {
@@ -33,8 +33,8 @@ export async function POST(req: NextRequest) {
 
         // Update user
         user.password = hashedPassword;
-        user.resetToken = null;
-        user.resetTokenExpiry = null;
+        user.reset_token = null;
+        user.reset_token_expiry = null;
         await user.save();
 
         return NextResponse.json(

@@ -1,31 +1,55 @@
 import mongoose from "mongoose";
+import { v7 as uuidv7 } from "uuid";
 
 const UserSchema = new mongoose.Schema(
     {
+        uuid: {
+            type: String,
+            default: uuidv7,
+            unique: true,
+        },
         name: {
             type: String,
             required: [true, "Please provide a name"],
         },
         identifier: {
             type: String,
-            required: [true, "Please provide an email or phone number"],
+            required: [true, "Please provide an email"],
             unique: true,
         },
         password: {
             type: String,
             required: [true, "Please provide a password"],
         },
-        resetToken: {
+        reset_token: {
             type: String,
             default: null,
         },
-        resetTokenExpiry: {
+        reset_token_expiry: {
             type: Date,
             default: null,
         },
+        verified: {
+            type: Boolean,
+            default: false,
+        },
+        verification_otp: {
+            type: String,
+            default: null,
+        },
+        created_at: {
+            type: Number,
+        },
+        updated_at: {
+            type: Number,
+        },
     },
     {
-        timestamps: true,
+        timestamps: {
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+            currentTime: () => Date.now(),
+        },
     },
 );
 

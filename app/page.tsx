@@ -110,7 +110,7 @@ export default function SignIn() {
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest font-semibold text-zinc-400">
-                            Email or Phone
+                            Email
                         </label>
                         <input
                             name="identifier"
