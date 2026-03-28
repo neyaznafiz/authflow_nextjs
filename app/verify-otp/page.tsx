@@ -3,7 +3,7 @@
 import { useState, FormEvent, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2, ArrowLeft, ShieldCheck, Sparkles } from "lucide-react";
+import { Loader2, ArrowLeft, ShieldCheck } from "lucide-react";
 import { clsx } from "clsx";
 import Link from "next/link";
 
@@ -109,7 +109,7 @@ function VerifyOTPContent() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative z-10 w-full max-w-md p-1"
         >
-            <div className="bg-white/[0.6] backdrop-blur-3xl border border-white/40 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] rounded-[2.5rem] p-8 sm:p-12 overflow-hidden relative">
+            <div className="bg-white/[0.6] backdrop-blur-3xl border border-white/40 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] rounded-[20px] p-8 sm:p-12 overflow-hidden relative">
                 <div className="mb-8">
                     <Link
                         href="/signup"
@@ -262,7 +262,7 @@ export default function VerifyOTP() {
                         y: [0, 30, 0]
                     }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-indigo-500/10 blur-[120px]"
+                    className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px]"
                 />
                 <motion.div 
                     animate={{ 
@@ -272,7 +272,7 @@ export default function VerifyOTP() {
                         y: [0, 50, 0]
                     }}
                     transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-violet-500/10 blur-[120px]"
+                    className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-violet-500/15 blur-[120px]"
                 />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />
             </div>
